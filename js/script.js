@@ -1,4 +1,5 @@
 const cardsWrapper = document.querySelectorAll(".cards-wrapper");
+const loader = document.querySelector(".loader");
 
 async function getData() {
   try {
@@ -72,4 +73,19 @@ async function getData() {
   }
 }
 
-getData();
+getData().then(() => {
+  function scrollToMiddle() {
+    window.scrollTo({
+      top: document.body.scrollHeight / 2,
+      left: document.body.scrollWidth / 2, // FIXME: Horizontal position is not centered
+    });
+  }
+
+  scrollToMiddle();
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  setTimeout(() => {
+    loader.style.transform = "translateY(-100%)";
+  }, 1000);
+});

@@ -26,6 +26,32 @@ body {
   font-family: "montserrat", sans-serif;
 }
 
+.loader {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: var(--green);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 500ms;
+
+  & div {
+    width: 50%;
+    overflow: hidden;
+
+    & svg {
+      color: var(--purple-100);
+      width: 100%;
+      object-fit: contain;
+      animation: loading-animation 500ms ease-in-out forwards;
+    }
+  }
+}
+
 main > section {
   display: flex;
   gap: 1rem;
@@ -33,11 +59,58 @@ main > section {
 
 .cards-wrapper {
   list-style: none;
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
   animation: scroll-animation ease-in forwards;
   animation-timeline: scroll();
+
+  & .starting-card {
+    background-color: transparent;
+    color: white;
+    overflow: hidden;
+    border-radius: 10px;
+    width: 18rem;
+    height: 26rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 1.25rem;
+    padding-bottom: 1.75rem;
+    text-align: center;
+
+    & .card-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 1rem;
+      height: 100%;
+
+      & h3 {
+        font-size: 2rem;
+        font-weight: normal;
+      }
+
+      & img {
+        opacity: 1;
+        width: 25%;
+        height: auto;
+        object-fit: contain;
+        position: relative;
+        margin-top: 1rem;
+      }
+
+      &:hover {
+        & img {
+          opacity: 1;
+        }
+      }
+
+      & p {
+        opacity: 0.6;
+      }
+    }
+  }
 
   & .card {
     position: relative;
@@ -51,11 +124,21 @@ main > section {
     padding-left: 1rem;
     padding-right: 1rem;
     padding-top: 1.25rem;
-    padding-bottom: 1.25rem;
+    padding-bottom: 1.75rem;
 
     & .card-content {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+
       & h3 {
         font-size: 2.75rem;
+        text-overflow: ellipsis;
+      }
+
+      & p:last-of-type {
+        margin-top: auto;
       }
     }
 
@@ -82,5 +165,15 @@ main > section {
 @keyframes scroll-animation {
   to {
     transform: translateY(var(--scroll-direction));
+  }
+}
+
+@keyframes loading-animation {
+  0% {
+    transform: translateY(100%);
+  }
+
+  100% {
+    transform: translateY(0%);
   }
 }
