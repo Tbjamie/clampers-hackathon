@@ -1,30 +1,51 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link
-      rel="icon"
-      type="image/png"
-      href="/favicon/favicon-96x96.png"
-      sizes="96x96"
-    />
-    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
-    <link rel="shortcut icon" href="/favicon/favicon.ico" />
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="/favicon/apple-touch-icon.png"
-    />
-    <meta name="apple-mobile-web-app-title" content="Clampers" />
-    <link rel="manifest" href="/favicon/site.webmanifest" />
-    <link rel="stylesheet" href="./css/style.css" />
-    <script src="./js/script.js" defer></script>
-  </head>
-  <body>
-    <header></header>
-    <main></main>
-    <footer></footer>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+  <link rel="shortcut icon" href="/favicon/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="Clampers" />
+  <link rel="manifest" href="/favicon/site.webmanifest" />
+  <link rel="stylesheet" href="./css/style.css" />
+  <script src="./js/script.js" defer></script>
+  <script src="./js/cardFlip.js" defer></script>
+</head>
+
+<body>
+  <header></header>
+  <main>
+    <!--https://www.w3schools.com/howto/howto_css_flip_card.asp  -->
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <img src="https://picsum.photos/400/400" alt="Random image from Lorem Picsum">
+        </div>
+        <div class="flip-card-back">
+          <ol>
+            <li>
+              <h2>naam persoon</h2>
+            </li>
+            <li>
+              <p>what did they do</p>
+            </li>
+            <li>
+              <p>what did they do</p>
+            </li>
+            <li>
+              <p>what did they do</p>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+  </main>
+  <footer></footer>
+</body>
+
 </html>
