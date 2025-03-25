@@ -13,6 +13,15 @@ body{
   --color4:#290924;
 
   --accent:#03E2CC;
+
+
+  --title-big: clamp(2rem, 1.259rem + 3.951vw, 6rem);
+  --title-small: 3em;
+
+  --text-big:clamp(1rem, 0.815rem + 0.988vw, 2rem);
+  --text-small: 2rem;
+
+  --link-small: 1.5rem;
 }
 
 article{
@@ -55,11 +64,11 @@ section{
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr;
-    grid-template-areas: 
+    /* grid-template-areas: 
     "image title" 
     "image description" 
     "image button" 
-    "image .";
+    "image ."; */
     gap:0 1em;
   
     border-radius: 1rem;
@@ -69,18 +78,25 @@ section{
       object-fit: cover;
       border-radius: 1rem 0 0 1rem;
 
-      grid-area: image;
+      /* grid-area: image; */
+      grid-column: 1;
+      grid-row: span 4;
     }
     h2{
-      grid-area: title;
+      /* width: 100%;
+      height: 100%; */
+      /* grid-area: title; */
+      grid-column: 2;
+      grid-row: 1;
       background-color: green;
       font-size: clamp(1rem, 5rem, 4rem);
     }
-    a{
-      grid-area: button;
-    }
-    p{
-      grid-area: description;
+    ol{
+      /* width: 100%; */
+      /* height: 100%; */
+      /* grid-area: description; */
+      grid-column: 2;
+      grid-row: span 4;
       background-color: royalblue;
     }
 }
