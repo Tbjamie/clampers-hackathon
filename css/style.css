@@ -178,25 +178,32 @@ footer{
   50%{
     transform: 
     translateX(0%);
+    top: 50%;
   }
   /* windup bottom */
   65%{
     transform: 
-    translateX(-20%);
+    /* translateX(-20%) */
+    rotate(-10deg);
+    top: 65%;
   }
   /* go up */
   85%{
     transform: 
-    translateX(30%);
+    /* translateX(30%) */
+    rotate(-10deg);
+    top: 40%;
   }
   /* end in base */
   100%{
     transform: 
     rotate(0deg)
     translateX(0%);
+    top: 50%;
   }
 }
 
+/* the purple one */
 @keyframes line1 {
   /* base */
   0%{
@@ -210,12 +217,14 @@ footer{
     width: 0%;
     opacity: 0%;
   }
+  /* go left */
   35%{
     width: 30px;
     transform: rotate(0deg) 
     ;
     opacity: 100%;
   }
+  /* to base */
   50%{
     width: 0px;
     transform: rotate(0deg) ;
@@ -225,6 +234,7 @@ footer{
     top: 0%;
     
   }
+  /* windup bottom */
   60%{
     transform: rotate(-90deg) scaleX(0%);
     opacity: 0%;
@@ -239,6 +249,7 @@ footer{
     ;
     opacity: 100%;
   }
+  /* go up */
   85%{
     /* width: 30px; */
     transform: rotate(-90deg) 
@@ -246,6 +257,7 @@ footer{
     ;
     opacity: 100%;
   }
+  /* end in base */
   100%{
     /* width: 0px; */
     transform: rotate(-90deg) 
@@ -257,6 +269,7 @@ footer{
   }
 }
 
+/* the blue one */
 @keyframes line2 {
   /* base */
   0%{
@@ -272,6 +285,7 @@ footer{
     /* transform: scaleX(0%); */
     opacity: 0%;
   }
+  /* go left */
   35%{
     width: 30px;
     transform: rotate(0deg) 
@@ -279,6 +293,7 @@ footer{
     ;
     opacity: 100%;
   }
+  /* to base */
   50%{
     width: 0px;
     transform: rotate(0deg) ;
@@ -286,11 +301,14 @@ footer{
     top: -85%;
     left: 15%;
   }
+  /* windup bottom */
   60%{
-    transform: rotate(-90deg) scaleX(0%);
+    transform: rotate(-90deg) 
+    scaleX(0%)
+    ;
     opacity: 0%;
     width: 30px;
-    top: -100%;
+    top: -130%;
     left: 12%;
   }
   65%{
@@ -300,13 +318,15 @@ footer{
     ;
     opacity: 100%;
   }
+  /* go up */
   85%{
     /* width: 30px; */
     transform: rotate(-90deg) 
-    scaleX(100%)
+    scaleX(50%)
     ;
     opacity: 100%;
   }
+  /* end in base */
   100%{
     /* width: 0px; */
     transform: rotate(-90deg) 
@@ -315,7 +335,7 @@ footer{
     opacity: 0%;
     /* left: -10%; */
 
-    top: -100%;
+    top: -130%;
     left: 12%;
   }
 }
