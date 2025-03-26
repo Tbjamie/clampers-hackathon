@@ -28,7 +28,7 @@ article {
   /* deze met variabele */
   background-color: blueviolet;
   color: white;
-  /* deze met een clamp */
+  /* deze met een clamp? */
   width: 300px;
 
   aspect-ratio: 2/3;
@@ -56,63 +56,102 @@ article {
 
 section {
   /* deze met variabele */
-  background-color: rgb(131, 14, 160);
-  color: white;
-  /* deze met een clamp */
-  /* width: 300px;  */
-  width: 100%;
+  background-color: var(--background);
+  color: var(--accent);
+  /* deze met een clamp? */
+  width: 80dvw;
   aspect-ratio: 3/2;
 
 
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr 1fr;
-  /* grid-template-areas: 
-    "image title" 
-    "image description" 
-    "image button" 
-    "image ."; */
   gap: 0 1em;
 
   border-radius: 1rem;
 
-  img {
+  & > img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: 1rem 0 0 1rem;
 
+    background-color: var(--color2);
     /* grid-area: image; */
     grid-column: 1;
     grid-row: span 4;
   }
 
-  h2 {
-    /* width: 100%;
-      height: 100%; */
-    /* grid-area: title; */
-    grid-column: 2;
-    grid-row: 1;
-    background-color: green;
-    font-size: clamp(1rem, 5rem, 4rem);
-  }
-
-  ol {
-    /* width: 100%; */
-    /* height: 100%; */
-    /* grid-area: description; */
+  div {
     grid-column: 2;
     grid-row: span 4;
-    background-color: royalblue;
+    /* background-color: royalblue; */
+
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto auto auto auto; 
+
+    /* position: relative; */
+
+    h2 {
+      font-size: var(--text-big);
+      font-weight: bold;
+
+      grid-column: span 2;
+      grid-row: 1;
+
+      padding-block: .5rem;
+    }
+
+    p{
+      font-size: var(--text-big);
+      grid-column: 1;
+      grid-row: span 1 2;
+    }
+
+    svg {
+      grid-column: 2;
+      grid-row: 5;
+
+      /* width: clamp(5rem, 3.951rem + 3.951vw, 12rem); */
+      min-width: 5rem;
+      min-height: 5rem;
+      width: 100%;
+      height: 100%;
+      max-width: 12rem;
+      max-height: 12rem;
+
+      background-color: yellow;
+      fill: var(--accent);
+
+    }
+
+    a{
+      font-size: var(--text-big);
+      grid-column: 1;
+      grid-row: -1;
+
+
+      width:fit-content;
+
+      /* p::after{
+        content:url(../assets/icons/website.svg);
+      } */
+    }
   }
+}
+
+.quote{
+  font-style: italic;
 }
 
 a,
 button {
-  color: black;
+  color: var(--accent);
   text-decoration: none;
-  background-color: aqua;
-  padding: .5em;
+  background-color: var(--background);
+  border: var(--accent) 2px solid;
+  padding-inline: .5rem;
   border-radius: .5rem;
 }
 

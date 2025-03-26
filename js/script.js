@@ -2,7 +2,11 @@
 const DataBaseURL = "https://fdnd.directus.app/items/women_in_tech/";
 
 // or whatever it will be
-const countryImages = document.querySelectorAll('img');
+const countryImages = document.querySelectorAll('main svg use');
+
+// countryImages.forEach(image => {
+//     image.style.color = 'red';
+// })
 console.log(countryImages[0]);
 
 let i = 0;
@@ -22,8 +26,9 @@ function getCountry() {
             console.log(myData[i].country);
 
             // kijk welke svg
-            console.log(countryImages[i]);
-            countryImages[i].src = `assets/images/${myData[i].country}.svg`;
+            console.log(countryImages[i].href.baseVal);
+            countryImages[i].href.baseVal = `./assets/images/${myData[i].country}.svg#Layer_1`;
+            console.log(countryImages[i].href);
         }
     });
 }
