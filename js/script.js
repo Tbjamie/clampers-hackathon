@@ -1,7 +1,7 @@
 // fetch data
 const DataBaseURL = "https://fdnd.directus.app/items/women_in_tech/";
 
-// or twhatever it will be
+// or whatever it will be
 const countryImages = document.querySelectorAll('img');
 console.log(countryImages[0]);
 
@@ -21,14 +21,12 @@ function getCountry() {
         for (i = 0; i < myData.length; i++) {
             console.log(myData[i].country);
 
+            // kijk welke svg
             console.log(countryImages[i]);
-            countryImages[i].src = `assets/images/${myData[i].country}.jpg`;
-            // countryImages[i].src = "/assets/images/Greece.jpg"
+            countryImages[i].src = `assets/images/${myData[i].country}.svg`;
         }
     });
 }
-
-// welke svg is het
 
 
 

@@ -4,104 +4,111 @@
   box-sizing: border-box;
 }
 
-body{
-  --background:#0D030C;
+body {
+  --background: #0D030C;
   /* different types of purple */
-  --color1:#360C30;
-  --color2:#350D42;
-  --color3:#591553;
-  --color4:#290924;
+  --color1: #360C30;
+  --color2: #350D42;
+  --color3: #591553;
+  --color4: #290924;
 
-  --accent:#03E2CC;
+  --accent: #03E2CC;
 
 
   --title-big: clamp(2rem, 1.259rem + 3.951vw, 6rem);
   --title-small: 3em;
 
-  --text-big:clamp(1rem, 0.815rem + 0.988vw, 2rem);
+  --text-big: clamp(1rem, 0.815rem + 0.988vw, 2rem);
   --text-small: 2rem;
 
   --link-small: 1.5rem;
 }
 
-article{
+article {
   /* deze met variabele */
   background-color: blueviolet;
   color: white;
   /* deze met een clamp */
-  width: 300px; 
+  width: 300px;
 
   aspect-ratio: 2/3;
   display: flex;
   flex-direction: column;
 
   border-radius: 1rem;
-  img{
+
+  img {
     width: 100%;
     height: 50%;
     object-fit: cover;
     border-radius: 1rem 1rem 0 0;
 
   }
-  div{
+
+  div {
     padding-inline: .5em;
-    h2{
+
+    h2 {
       font-size: 2rem;
     }
   }
 }
 
-section{
-    /* deze met variabele */
-    background-color: rgb(131, 14, 160);
-    color: white;
-    /* deze met een clamp */
-    /* width: 300px;  */
-    width: 100%;
-    aspect-ratio: 3/2;
-  
+section {
+  /* deze met variabele */
+  background-color: rgb(131, 14, 160);
+  color: white;
+  /* deze met een clamp */
+  /* width: 300px;  */
+  width: 100%;
+  aspect-ratio: 3/2;
 
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
-    /* grid-template-areas: 
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  /* grid-template-areas: 
     "image title" 
     "image description" 
     "image button" 
     "image ."; */
-    gap:0 1em;
-  
-    border-radius: 1rem;
-    img{
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 1rem 0 0 1rem;
+  gap: 0 1em;
 
-      /* grid-area: image; */
-      grid-column: 1;
-      grid-row: span 4;
-    }
-    h2{
-      /* width: 100%;
+  border-radius: 1rem;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 1rem 0 0 1rem;
+
+    /* grid-area: image; */
+    grid-column: 1;
+    grid-row: span 4;
+  }
+
+  h2 {
+    /* width: 100%;
       height: 100%; */
-      /* grid-area: title; */
-      grid-column: 2;
-      grid-row: 1;
-      background-color: green;
-      font-size: clamp(1rem, 5rem, 4rem);
-    }
-    ol{
-      /* width: 100%; */
-      /* height: 100%; */
-      /* grid-area: description; */
-      grid-column: 2;
-      grid-row: span 4;
-      background-color: royalblue;
-    }
+    /* grid-area: title; */
+    grid-column: 2;
+    grid-row: 1;
+    background-color: green;
+    font-size: clamp(1rem, 5rem, 4rem);
+  }
+
+  ol {
+    /* width: 100%; */
+    /* height: 100%; */
+    /* grid-area: description; */
+    grid-column: 2;
+    grid-row: span 4;
+    background-color: royalblue;
+  }
 }
 
-a, button{
+a,
+button {
   color: black;
   text-decoration: none;
   background-color: aqua;
@@ -109,34 +116,32 @@ a, button{
   border-radius: .5rem;
 }
 
-footer{
+footer {
   width: 100px;
   height: 100px;
-  /* background-color: rgb(199, 255, 187); */
   border: black 5px solid;
   display: grid;
   place-items: end;
   position: absolute;
 
-  svg{
+  svg {
     width: 50%;
     height: 50%;
     /* fill: red; */
     rotate: -90deg;
     transform-origin: center left;
     animation: swipe 4s infinite linear;
-    /* border: red 1px solid; */
-    position:absolute;
+    position: absolute;
   }
 
-  &::after, &::before{
+  &::after,
+  &::before {
     content: "";
     width: 30px;
     height: 3px;
     display: block;
     background-color: var(--accent);
     border-radius: 50em;
-    /* border: green 1px solid; */
     position: relative;
     transform-origin: center left;
 
@@ -144,13 +149,14 @@ footer{
 
     transform: scaleX(0%);
   }
-  &::before{
+
+  &::before {
     left: 5%;
-    /* top: 10%; */
     animation: line1 4s infinite linear;
-    background-color: var(--color1);
+    /* background-color: var(--color1); */
   }
-  &::after{
+
+  &::after {
     top: -85%;
     left: 15%;
     animation: line2 4s infinite linear;
@@ -159,183 +165,178 @@ footer{
 
 @keyframes swipe {
   /* base */
-  0%{
-    transform: 
-    rotate(0deg)
-    translateX(0%);
+  0% {
+    transform:
+      rotate(0deg) translateX(0%);
   }
+
   /* windup right */
-  15%{
-    transform: rotate(4deg)
-    translateY(20%);
+  15% {
+    transform: rotate(4deg) translateY(20%);
   }
+
   /* go left */
-  35%{
-    transform: rotate(-4deg)
-    translateY(-20%);
+  35% {
+    transform: rotate(-4deg) translateY(-20%);
   }
+
   /* to base */
-  50%{
-    transform: 
-    translateX(0%);
+  50% {
+    transform:
+      translateX(0%);
     top: 50%;
   }
+
   /* windup bottom */
-  65%{
-    transform: 
-    /* translateX(-20%) */
-    rotate(-10deg);
+  65% {
+    transform:
+      rotate(-10deg);
     top: 65%;
   }
+
   /* go up */
-  85%{
-    transform: 
-    /* translateX(30%) */
-    rotate(-10deg);
+  85% {
+    transform:
+      rotate(-10deg);
     top: 40%;
   }
+
   /* end in base */
-  100%{
-    transform: 
-    rotate(0deg)
-    translateX(0%);
+  100% {
+    transform:
+      rotate(0deg) translateX(0%);
     top: 50%;
   }
 }
 
 /* the purple one */
 @keyframes line1 {
+
   /* base */
-  0%{
+  0% {
     width: 0%;
-    transform: rotate(0deg) 
-    ;
+    transform: rotate(0deg);
     opacity: 0%;
   }
+
   /* windup right */
-  15%{
+  15% {
     width: 0%;
     opacity: 0%;
   }
+
   /* go left */
-  35%{
+  35% {
     width: 30px;
-    transform: rotate(0deg) 
-    ;
+    transform: rotate(0deg);
     opacity: 100%;
   }
+
   /* to base */
-  50%{
+  50% {
     width: 0px;
-    transform: rotate(0deg) ;
+    transform: rotate(0deg);
     opacity: 0%;
-    /* top : 10%; */
     left: 5%;
     top: 0%;
-    
+
   }
+
   /* windup bottom */
-  60%{
-    transform: rotate(-90deg) scaleX(0%);
+  60% {
+    transform:rotate(-90deg) scaleX(0);
     opacity: 0%;
     width: 30px;
 
-    top : 12%;
+    top: 15%;
+    left: -5%;
   }
-  65%{
+
+  65% {
     /* width: 0; */
-    transform: rotate(-90deg) 
-    scaleX(0%)
-    ;
+    transform:rotate(-90deg) scaleX(0);
     opacity: 100%;
   }
+
   /* go up */
-  85%{
-    /* width: 30px; */
-    transform: rotate(-90deg) 
-    scaleX(100%)
-    ;
+  85% {
+    transform:rotate(-90deg) scaleX(80%);
     opacity: 100%;
+    transform-origin: center left;
   }
+
   /* end in base */
-  100%{
-    /* width: 0px; */
-    transform: rotate(-90deg) 
-    scaleX(0%)
-    ;
+  100% {
+    transform-origin: bottom left;
+    transform: rotate(-90deg) scaleX(0);
     opacity: 0%;
-    top : 12%;
-    /* left: -10%; */
+    top: 15%;
+    left: -5%;
   }
 }
 
 /* the blue one */
 @keyframes line2 {
   /* base */
-  0%{
+  0% {
     width: 0%;
-    transform: rotate(0deg) 
-    /* scaleX(0%) */
-    ;
+    transform: rotate(0deg);
     opacity: 0%;
   }
+
   /* windup right */
-  15%{
+  15% {
     width: 0%;
-    /* transform: scaleX(0%); */
     opacity: 0%;
   }
+
   /* go left */
-  35%{
+  35% {
     width: 30px;
-    transform: rotate(0deg) 
-    /* scaleX(100%) */
-    ;
+    transform: rotate(0deg);
     opacity: 100%;
   }
+
   /* to base */
-  50%{
+  50% {
     width: 0px;
-    transform: rotate(0deg) ;
+    transform: rotate(0deg);
     opacity: 0%;
     top: -85%;
     left: 15%;
   }
+
   /* windup bottom */
-  60%{
-    transform: rotate(-90deg) 
-    scaleX(0%)
-    ;
+  60% {
+    transform:rotate(-90deg) scaleX(0);
     opacity: 0%;
     width: 30px;
-    top: -130%;
-    left: 12%;
+    top: -70%;
+    left: -13%;
   }
-  65%{
-    /* width: 0; */
-    transform: rotate(-90deg) 
-    scaleX(0%)
-    ;
-    opacity: 100%;
-  }
-  /* go up */
-  85%{
-    /* width: 30px; */
-    transform: rotate(-90deg) 
-    scaleX(50%)
-    ;
-    opacity: 100%;
-  }
-  /* end in base */
-  100%{
-    /* width: 0px; */
-    transform: rotate(-90deg) 
-    scaleX(0%)
-    ;
-    opacity: 0%;
-    /* left: -10%; */
 
-    top: -130%;
-    left: 12%;
+  65% {
+    transform:rotate(-90deg) scaleX(0);
+    opacity: 100%;
+  }
+
+  /* go up */
+  85% {
+    width: 30px;
+    transform:rotate(-90deg) scaleX(80%);
+    opacity: 100%;
+    top: -70%;
+    left: -13%;
+    transform-origin: center left;
+  }
+
+  /* end in base */
+  100% {
+    transform-origin: bottom left;
+    transform: rotate(-90deg) scaleX(0);
+    opacity: 0%;
+
+    top: -70%;
+    left: -13%;
   }
 }
