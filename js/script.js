@@ -2,7 +2,7 @@
 const DataBaseURL = "https://fdnd.directus.app/items/women_in_tech/";
 
 // or whatever it will be
-const countryImages = document.querySelectorAll('main svg use');
+const countryImages = document.querySelectorAll('.country use');
 
 // countryImages.forEach(image => {
 //     image.style.color = 'red';
