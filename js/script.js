@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 async function getData() {
+  // id can be empty
   try {
     const url = "https://fdnd.directus.app/items/women_in_tech";
     const response = await fetch(url);
@@ -76,15 +77,27 @@ function createCards() {
       sliced.forEach((woman) => {
         const card = document.createElement("li");
         card.classList.add("card");
+        card.id = woman.id
         card.innerHTML = `
             <div class="card-content">
                 <h3>${woman.name}</h3>
                 <p>${woman.work}</p>
                 <p>Click to view</p>
             </div>
+            <div class="card-back">
+              <h2>${woman.name}</h2>
+              <p>${woman.tagline}</p>
+              <p>Country: ${woman.country}</p>
+              <p>Work: ${woman.work || 'Not specified'}</p>
+              ${woman.website ? `<a href="${woman.website}">Website</a>` : ''}
+              ${woman.github ? `<a href="${woman.github}">GitHub</a>` : ''}
+              ${woman.codepen ? `<a href="${woman.codepen}">CodePen</a>` : ''}
+          </div>
             <img src="${woman.image}" alt="${woman.name}" />
               `;
         wrapper.appendChild(card);
+        // add eventListener to each card
+        card.addEventListener("click", openCard);
       });
 
       //   const lastCard = wrapper.lastElementChild;
@@ -94,6 +107,57 @@ function createCards() {
     });
   });
 }
+
+const middleCard = document.querySelector(".middle-card");
+let oldContainer = null;
+
+function openCard(event) {
+  const container = event.target.closest('li')
+  const womanId = container.id
+
+  // save old container
+  oldContainer = container;
+  // get image inside the clicked button:
+  const image = container.querySelector("img");
+  // set a view transition name on the image (we do this here because the name has to be unique, so we remove it when the image is closed again)
+  image.style.viewTransitionName = "selected-img";
+  // start view transition
+  document
+    .startViewTransition(() => {
+      // append means take it outside of it's original place in the DOM and put it here now:
+      middleCard.append(image);
+    })
+    .finished.then(() => {
+      // add active class here f.e. to openklap your kaartje Thije!
+      const cardBack = document.querySelector(".card-back");
+      const clonedCard = cardBack.cloneNode(true)
+      middleCard.append(clonedCard)
+
+    });
+}
+
+const closeModal = () => {
+  // we're now using the image inside middleCard:
+  const image = middleCard.querySelector("img");
+
+  // we dont have to add the viewTransitionName, it's already on the image, we have to remove it when the transition is done, though!
+  document
+    .startViewTransition(() => {
+      oldContainer.append(image);
+
+    })
+    .finished.then(() => {
+      // remove view transition name when animation is done
+      image.style.viewTransitionName = "";
+      middleCard.innerHTML = ''
+      // set the old container to null again
+      oldContainer = null;
+    });
+};
+
+middleCard.addEventListener("click", closeModal);
+
+
 
 document.addEventListener("DOMContentLoaded", () => {
   createCards();
@@ -174,9 +238,8 @@ function updateCard(dirX, dirY) {
       const isBefore = bounds.bottom < 0;
 
       if (dirY === "up" && isAfter) {
-        card.style.transform += `translateY(-${
-          cardsWrapper[0].offsetHeight + 16
-        }px)`;
+        card.style.transform += `translateY(-${cardsWrapper[0].offsetHeight + 16
+          }px)`;
 
         if (card.classList.contains("starting-card")) {
           card.classList.remove("starting-card");
@@ -184,9 +247,8 @@ function updateCard(dirX, dirY) {
       }
 
       if (dirY === "down" && isBefore) {
-        card.style.transform += `translateY(${
-          cardsWrapper[0].offsetHeight + 16
-        }px)`;
+        card.style.transform += `translateY(${cardsWrapper[0].offsetHeight + 16
+          }px)`;
 
         if (card.classList.contains("starting-card")) {
           card.classList.remove("starting-card");
