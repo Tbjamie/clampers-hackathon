@@ -1,17 +1,34 @@
+const content = document.querySelector(".content");
 const cardsWrapper = document.querySelectorAll(".cards-wrapper");
+const cursor = document.querySelector(".cursor");
 const loader = document.querySelector(".loader");
+// const observer = new IntersectionObserver((entries) => {
+//   entries.forEach((entry) => {
+//     if (!entry.isVisible) {
+//       //   updateCard();
+//     }
+//   });
+// });
+
+// observer.observe(content);
+
+document.addEventListener("DOMContentLoaded", () => {
+  setTimeout(() => {
+    loader.style.transform = "translateY(-100%)";
+  }, 1000);
+});
 
 async function getData() {
   try {
-    const response = await fetch(
-      "https://fdnd.directus.app/items/women_in_tech"
-    );
+    const url = "https://fdnd.directus.app/items/women_in_tech";
+    const response = await fetch(url);
 
     if (!response.ok) {
       throw new Error(`Response status: ${response.status}`);
     }
 
     const data = await response.json();
+
     const women = data.data;
 
     women.forEach((woman) => {
@@ -45,47 +62,400 @@ async function getData() {
       }
     });
 
-    cardsWrapper.forEach((wrapper, i) => {
-      const sliced = women.slice(i * 10, (i + 1) * 10);
-
-      sliced.forEach((woman) => {
-        const cards = document.createElement("li");
-        cards.innerHTML = `
-        <li class="card">
-            <img src="${woman.image}" alt="${woman.name}" />
-
-            <div class="card-content">
-                <h3>${woman.name}</h3>
-                <p>${woman.tagline}</p>
-            
-                <p>Click to view</p>
-            </div>
-        </li>
-        `;
-
-        wrapper.appendChild(cards);
-      });
-    });
-
     return women;
   } catch (error) {
-    console.error(error);
+    console.log(error);
   }
 }
 
-getData().then(() => {
-  function scrollToMiddle() {
-    window.scrollTo({
-      top: document.body.scrollHeight / 2,
-      left: document.body.scrollWidth / 2, // FIXME: Horizontal position is not centered
-    });
-  }
+function createCards() {
+  getData().then((women) => {
+    cardsWrapper.forEach((wrapper, i) => {
+      const sliced = women.slice(i * 5, (i + 1) * 5);
 
-  scrollToMiddle();
-});
+      sliced.forEach((woman) => {
+        const card = document.createElement("li");
+        card.classList.add("card");
+        card.innerHTML = `
+            <div class="card-content">
+                <h3>${woman.name}</h3>
+                <p>${woman.work}</p>
+                <p>Click to view</p>
+            </div>
+            <img src="${woman.image}" alt="${woman.name}" />
+              `;
+        wrapper.appendChild(card);
+      });
+
+      //   const lastCard = wrapper.lastElementChild;
+      //   if (lastCard) {
+      //     observer.observe(lastCard);
+      //   }
+    });
+  });
+}
 
 document.addEventListener("DOMContentLoaded", () => {
-  setTimeout(() => {
-    loader.style.transform = "translateY(-100%)";
-  }, 1000);
+  createCards();
 });
+
+document.addEventListener("wheel", (e) => {
+  let x = e.deltaX;
+  let y = e.deltaY;
+
+  content.style.top = `${content.offsetTop - y}px`;
+  content.style.left = `${content.offsetLeft - x}px`;
+
+  updateCard();
+});
+
+function customCursor(e) {
+  cursor.style.top = `${e.pageY - cursor.offsetHeight / 2}px`;
+  cursor.style.left = `${e.pageX - cursor.offsetWidth / 2}px`;
+}
+
+document.addEventListener("mousemove", (e) => {
+  customCursor(e);
+});
+
+// Blokkeert swipe-terug in de browser CHATGPT
+
+window.addEventListener(
+  "wheel",
+  function (event) {
+    event.preventDefault();
+  },
+  { passive: false }
+);
+
+window.addEventListener(
+  "touchstart",
+  function (event) {
+    event.preventDefault();
+  },
+  { passive: false }
+);
+
+window.addEventListener(
+  "touchmove",
+  function (event) {
+    event.preventDefault();
+  },
+  { passive: false }
+);
+
+// TODO:
+//  - Set starting point to center
+//  - Add scroll animation
+//  - Set starting card in center on load
+
+function updateCard(dirX, dirY) {
+  const cards = document.querySelectorAll(".card");
+  item = document.querySelectorAll(".card");
+
+  document.addEventListener("wheel", (e) => {
+    if (e.deltaY > 0) {
+      dirY = "down";
+      console.log("DOWN");
+    } else if (e.deltaY < 0) {
+      dirY = "up";
+      console.log("UP");
+    }
+
+    if (e.deltaX > 0) {
+      dirX = "right";
+    } else if (e.deltaX < 0) {
+      dirX = "left";
+    }
+
+    cards.forEach((card) => {
+      const bounds = card.getBoundingClientRect();
+      const isAfter = bounds.top > window.innerHeight;
+      const isBefore = bounds.bottom < 0;
+
+      if (dirY === "up" && isAfter) {
+        card.style.transform += `translateY(-${
+          cardsWrapper[0].offsetHeight + 16
+        }px)`;
+
+        if (card.classList.contains("starting-card")) {
+          card.classList.remove("starting-card");
+        }
+      }
+
+      if (dirY === "down" && isBefore) {
+        card.style.transform += `translateY(${
+          cardsWrapper[0].offsetHeight + 16
+        }px)`;
+
+        if (card.classList.contains("starting-card")) {
+          card.classList.remove("starting-card");
+        }
+      }
+    });
+
+    cardsWrapper.forEach((wrapper) => {
+      const bounds = wrapper.getBoundingClientRect();
+      const isAfter = bounds.left > window.innerWidth;
+      const isBefore = bounds.right < 0;
+
+      console.log(content.offsetWidth);
+
+      if (dirX === "left" && isAfter) {
+        wrapper.style.transform += `translateX(-${content.offsetWidth + 16}px)`;
+      }
+
+      if (dirX === "right" && isBefore) {
+        wrapper.style.transform += `translateX(${content.offsetWidth + 16}px)`;
+      }
+    });
+  });
+}
+
+function setStartingCard() {
+  const wrapper = document.querySelector(".starting-wrapper");
+  const cards = wrapper.querySelectorAll(".card");
+
+  cards[2].classList.add("starting-card");
+
+  //   setInterval(() => {
+  if (cards[2].classList.contains("starting-card")) {
+    cards[2].innerHTML = `
+                <div class="card-content">
+                      <h3>Trailblazing Women in Tech</h3>
+                      <p>
+                        Move through inspiring women in the world of tech and get
+                        inspired!
+                      </p>
+        
+                      <img src="./assets/buy.gif" alt="Scrolling GIF" />
+                    </div>
+            `;
+  } else {
+    cards[2].innerHTML = `
+                <div class="card-content">
+                    <h3>${woman.name}</h3>
+                    <p>${woman.work}</p>
+                    <p>Click to view</p>
+                </div>
+                <img src="${woman.image}" alt="${woman.name}" />
+            `;
+  }
+  //   }, 100);
+}
+
+setTimeout(setStartingCard, 1000);
+
+//   updateCard(dirX, dirY) {
+
+//     this.isBefore = item.bounds.y + y > this.screen.height;
+//     this.isAfter = item.bounds.y + item.bounds.height + y < 0;
+//     if (dirY === "up" && this.isBefore) {
+//       item.extraY += this.containerHeight;
+
+//       this.isBefore = false;
+//       this.isAfter = false;
+//       gsap
+//         .timeline()
+//         .set(item.card, {
+//           "--scale": 0,
+//         })
+//         .to(item.card, {
+//           "--scale": 0.7,
+//           duration: 0.4,
+//           ease: "Power4.out",
+//         });
+//     }
+
+//     if (dirY === "down" && this.isAfter) {
+//       item.extraY -= this.containerHeight;
+
+//       this.isBefore = false;
+//       this.isAfter = false;
+//       gsap
+//         .timeline()
+//         .set(item.card, {
+//           "--scale": 0,
+//         })
+//         .to(item.card, {
+//           "--scale": 0.7,
+//           duration: 0.4,
+//           ease: "Power4.out",
+//         });
+//     }
+//     this.isRight = item.bounds.x + x > this.screen.width;
+
+//     this.isLeft = item.bounds.x + item.bounds.width + x < 0;
+//     if (dirX === "left" && this.isLeft) {
+//       item.extraX -= this.containerWidth;
+
+//       this.isLeft = false;
+//       this.isRight = false;
+//       gsap
+//         .timeline()
+//         .set(item.card, {
+//           "--scale": 0,
+//         })
+//         .to(item.card, {
+//           "--scale": 0.7,
+//           duration: 0.4,
+//           ease: "Power4.out",
+//         });
+//     }
+//     if (dirX === "right" && this.isRight) {
+//       item.extraX += this.containerWidth;
+
+//       this.isLeft = false;
+//       this.isRight = false;
+//       gsap
+//         .timeline()
+//         .set(item.card, {
+//           "--scale": 0,
+//         })
+//         .to(item.card, {
+//           "--scale": 0.7,
+//           duration: 0.4,
+//           ease: "Power4.out",
+//         });
+//     }
+// }
+
+//   updateShape(item, scroll, dirX, dirY) {
+//     let y = -scroll.currentY * 0.025 - item.extraY;
+//     let x = -scroll.currentX * 0.025 - item.extraX;
+
+//     gsap.set(item.shape, {
+//       x,
+//       y,
+//     });
+
+//     this.isBefore = item.bounds.y + y > this.screen.height;
+//     this.isAfter = item.bounds.y + item.bounds.height + y < 0;
+//     if (dirY === "up" && this.isBefore) {
+//       item.extraY += this.containerHeight;
+
+//       this.isBefore = false;
+//       this.isAfter = false;
+//       gsap
+//         .timeline()
+//         .set(item.shape, {
+//           scale: 0,
+//         })
+//         .to(item.shape, {
+//           scale: 1,
+//           duration: 0.4,
+//           ease: "Power4.out",
+//         });
+//     }
+
+//     if (dirY === "down" && this.isAfter) {
+//       item.extraY -= this.containerHeight;
+
+//       this.isBefore = false;
+//       this.isAfter = false;
+//       gsap
+//         .timeline()
+//         .set(item.shape, {
+//           scale: 0,
+//         })
+//         .to(item.shape, {
+//           scale: 1,
+//           duration: 0.4,
+//           ease: "Power4.out",
+//         });
+//     }
+
+//     this.isRight = item.bounds.x + x > this.screen.width;
+//     this.isLeft = item.bounds.x + item.bounds.width + x < 0;
+
+//     if (dirX === "left" && this.isLeft) {
+//       item.extraX -= this.containerWidth;
+
+//       this.isLeft = false;
+//       this.isRight = false;
+//       gsap
+//         .timeline()
+//         .set(item.shape, {
+//           scale: 0,
+//         })
+//         .to(item.shape, {
+//           scale: 1,
+//           duration: 0.4,
+//           ease: "Power4.out",
+//         });
+//     }
+//     if (dirX === "right" && this.isRight) {
+//       item.extraX += this.containerWidth;
+
+//       this.isLeft = false;
+//       this.isRight = false;
+//       gsap
+//         .timeline()
+//         .set(item.shape, {
+//           scale: 0,
+//         })
+//         .to(item.shape, {
+//           scale: 1,
+//           duration: 0.4,
+//           ease: "Power4.out",
+//         });
+//     }
+//   }
+//   resetItems() {
+//     this.scroll = {
+//       ease: 0.05,
+//       currentX: 0,
+//       currentY: 0,
+//       targetX: 0,
+//       targetY: 0,
+//       lastX: 0,
+//       lastY: 0,
+//     };
+
+//     this.speedY = 0.5;
+//     this.speedX = 0.1;
+//     this.titleX = 0;
+//     gsap.set(this.htmlCards, {
+//       y: 0,
+//       x: 0,
+//     });
+//     gsap.set(this.htmlShapes, {
+//       y: 0,
+//       x: 0,
+//     });
+//   }
+
+//   /**
+//    * Listeners.
+//    */
+//   addEventListeners() {
+//     window.addEventListener("resize", this.onResize.bind(this));
+
+//     window.addEventListener("mousewheel", this.onWheel.bind(this), {
+//       passive: true,
+//     });
+//     window.addEventListener("wheel", this.onWheel.bind(this), {
+//       passive: true,
+//     });
+
+//     window.addEventListener("mousedown", this.onTouchDown.bind(this), {
+//       passive: true,
+//     });
+//     window.addEventListener("mousemove", this.onTouchMove.bind(this), {
+//       passive: true,
+//     });
+//     window.addEventListener("mouseup", this.onTouchUp.bind(this), {
+//       passive: true,
+//     });
+
+//     window.addEventListener("touchstart", this.onTouchDown.bind(this), {
+//       passive: true,
+//     });
+//     window.addEventListener("touchmove", this.onTouchMove.bind(this), {
+//       passive: true,
+//     });
+//     window.addEventListener("touchend", this.onTouchUp.bind(this), {
+//       passive: true,
+//     });
+//   }
+// }
