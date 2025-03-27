@@ -127,19 +127,115 @@
 
 // });
 
+const womenInTechData = [
+    {
+        "id": 1,
+        "name": "Lea Verou",
+        "tagline": "I make things that help people make things",
+        "period": "web pioneer",
+        "website": "https://lea.verou.me/",
+        "image": "940df92d-844f-4775-b0d1-1b195619d04e",
+        "country": "Greece",
+        "github": "https://github.com/leaverou",
+        "codepen": "https://codepen.io/leaverou",
+        "work": "Font Awesome"
+    }
+];
+
+const cards = document.querySelectorAll('.card');
+const cardsContainer = document.querySelectorAll('.card-container');
+const middleCard = document.querySelector('.middle-card .inner');
+const middleCardFront = document.querySelector('.middle-card .front');
+const middleCardInner = document.querySelector('.middle-card .inner');
+const background = document.querySelector(".middle-card .back");
+
+
+
+let oldContainer = null;
+
+
+
+
+if (cards) {
+    cards.forEach((card) => {
+        card.addEventListener("click", () => {
+            // save old container
+            oldContainer = card;
+            // get image inside the clicked card:
+            const image = card.querySelector("img");
+            // set a view transition name on the image (we do this here because the name has to be unique, so we remove it when the image is closed again)
+            image.style.viewTransitionName = "selected-img";
+            // start view transition
+            document
+                .startViewTransition(() => {
+                    // append means take it outside of it's original place in the DOM and put it here now:
+                    middleCard.append(image);
+                })
+                .finished.then(() => {
+                    // add active class here f.e. to openklap your kaartje Thije!
+                });
+        });
+    });
+}
+
+const closeModal = () => {
+    // we're now using the image inside middleCard:
+    const image = middleCard.querySelector("img");
+    // we dont have to add the viewTransitionName, it's already on the image, we have to remove it when the transition is done, though!
+    document
+        .startViewTransition(() => {
+            oldContainer.append(image);
+        })
+        .finished.then(() => {
+            // remove view transition name when animation is done
+            image.style.viewTransitionName = "";
+            // set the old container to null again
+            oldContainer = null;
+        });
+};
+
+background.addEventListener("click", closeModal);
+
+
+
+
+// function createCard(person) {
+//     const card = document.createElement('div');
+//     card.className = 'card';
+//     card.innerHTML = `
+//         <div class="card-front">
+//             <img src="https://placehold.co/400x400" alt="${person.name}">
+//         </div>
+//         <div class="card-back">
+//             <h2>${person.name}</h2>
+//             <p>${person.tagline}</p>
+//             <p>Country: ${person.country}</p>
+//             <p>Work: ${person.work || 'Not specified'}</p>
+//             ${person.website ? `<a href="${person.website}">Website</a>` : ''}
+//             ${person.github ? `<a href="${person.github}">GitHub</a>` : ''}
+//             ${person.codepen ? `<a href="${person.codepen}">CodePen</a>` : ''}
+//         </div>
+//     `;
+//     return card;
+// }
+
+// function renderCards(data) {
+//     const containers = document.querySelectorAll('.card-container');
+//     containers.forEach(container => {
+//         data.forEach(person => {
+//             const cardElement = createCard(person);
+//             container.appendChild(cardElement);
+//         });
+//     });
+// }
+
+// renderCards(womenInTechData);
 
 // // functions to open/close lightbox and fetch caption data
 // async function showCard(image) {
-//     const imageID = image.getAttribute('data-card-id')
-//     const data = await fetchData()
-//     const caption = data.find((woman) => woman.id === imageID)
 
-//     figcaption.classList.add('figcaption')
-//     figcaption.innerHTML = `
-//         <p>Photo by <a href="${caption.artistURL}">${caption.artist}</a> on <a href="${caption.imageURL}">Unsplash</a></p>
-//     `
-//     lightboxImg.append(image)
-//     lightboxImg.append(figcaption)
+//     middleCardInner.append(image)
+//     middleCardInner.append(figcaption)
 // }
 
 // function closeLightbox(image) {
@@ -195,64 +291,4 @@
 //     await animation.finished
 //     image.style.viewTransitionName = 'none'
 // })
-
-
-const cardsWrapper = document.querySelectorAll('.card-container');
-// const middleCard = document.querySelector('.middle-card');
-// const middleCardImg = document.querySelector('.middle-card-img');
-// const cardOpen = document.createElement('.card-data');
-
-// let oldContainer = null;
-
-
-const womenInTechData = [
-    {
-        "id": 1,
-        "name": "Lea Verou",
-        "tagline": "I make things that help people make things",
-        "period": "web pioneer",
-        "website": "https://lea.verou.me/",
-        "image": "940df92d-844f-4775-b0d1-1b195619d04e",
-        "country": "Greece",
-        "github": "https://github.com/leaverou",
-        "codepen": "https://codepen.io/leaverou",
-        "work": "Font Awesome"
-    }
-    // Add more data objects as needed
-];
-
-function createCard(person) {
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.innerHTML = `
-        <div class="card-front">
-            <img src="https://placehold.co/400x400" alt="${person.name}">
-        </div>
-        <div class="card-back">
-            <h2>${person.name}</h2>
-            <p>${person.tagline}</p>
-            <p>Country: ${person.country}</p>
-            <p>Work: ${person.work || 'Not specified'}</p>
-            ${person.website ? `<a href="${person.website}">Website</a>` : ''}
-            ${person.github ? `<a href="${person.github}">GitHub</a>` : ''}
-            ${person.codepen ? `<a href="${person.codepen}">CodePen</a>` : ''}
-        </div>
-    `;
-
-    return card;
-
-}
-
-function renderCards(data) {
-    const containers = document.querySelectorAll('.card-container');
-    containers.forEach(container => {
-        data.forEach(person => {
-            const cardElement = createCard(person);
-            container.appendChild(cardElement);
-        });
-    });
-}
-
-
-renderCards(womenInTechData);
 
