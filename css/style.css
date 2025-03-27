@@ -222,7 +222,14 @@ main {
   }
 }
 
-::view-transition-group(selected-img) {
+::view-transition-old(selected-img) {
+  /* animation-duration: 0.4s;
+  animation-timing-function: var(--easing); */
+  animation: 300ms var(--easing) 50ms both scale-up;
+}
+
+::view-transition-new(selected-img) {
+  animation: 300ms var(--easing) 50ms both scale-up;
   animation-duration: 0.4s;
   animation-timing-function: var(--easing);
 }
@@ -238,14 +245,22 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
+  backface-visibility: hidden;
   img {
     width: var(--card-width);
     height: var(--card-height);
     object-fit: cover;
   }
+  & .card-back {
+    position: absolute;
+    color: white;
+    background-color: var(--purple-100);
+    width: var(--card-width);
+    height: var(--card-height);
+    transform: rotateY(180deg);
+    backface-visibility: hidden;
+  }
 }
-
-/* animation: scaleUp 1s cubic-bezier(0.65, 0, 0.35, 1) 0s 1 normal forwards; */
 
 @keyframes flip {
   0% {

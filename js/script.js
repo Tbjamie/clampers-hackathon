@@ -33,7 +33,7 @@ async function getData() {
     const women = data.data;
 
     women.forEach((woman) => {
-      woman.image = `https://fdnd.directus.app/assets/${woman.image}`;
+      woman.image = `https://fdnd.directus.app/assets/${woman.image} class="card-image-front"`;
 
       if (
         !woman.work ||
@@ -131,6 +131,7 @@ function openCard(event) {
       // add active class here f.e. to openklap your kaartje Thije!
       const cardBack = document.querySelector(".card-back");
       const clonedCard = cardBack.cloneNode(true)
+      clonedCard.classList.add("card-back")
       middleCard.append(clonedCard)
 
     });
