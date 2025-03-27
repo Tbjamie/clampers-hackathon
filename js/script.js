@@ -72,6 +72,7 @@ function createCards() {
             <div class="card-content">
                 <h3>${woman.name}</h3>
                 <p>${woman.work}</p>
+                <p class="tagline">"${woman.tagline}"</p>
                 <a target="blank" href="${woman.website}">Click to view</a>
             </div>
             <img src="${woman.image}" alt="${woman.name}" />
